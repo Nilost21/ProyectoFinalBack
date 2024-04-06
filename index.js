@@ -5,16 +5,20 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import indexRouter from './routes/index.route.js';
+import seed from './db/seed.db.js';
+import { createAdminUser } from './controllers/auth.controller.js';
 
-import errorHandler from './middlewares/errorHandler.js';
+import errorHandler from './middlewares/errorHandler.middleware.js';
 
 dotenv.config();
 
 // Connection and generation of the database
 mongoose
   .connect(process.env.MONGO)
-  .then(() => {
+  .then(async () => {
     console.log('Conectado a MongoDB');
+    await seed();
+    await createAdminUser();
   })
   .catch((err) => {
     console.log(err);
