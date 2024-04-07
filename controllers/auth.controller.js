@@ -7,7 +7,7 @@ const signin = (req, res, next) => {
   authService.signin(email, password)
     .then(({ user, token }) => {
       res.cookie('access_token', token, { httpOnly: true })
-      res.status(200).json({ success: true, user })
+      res.status(200).json({ success: true, user, token })
     })
     .catch((err) => {
       console.log(err);
