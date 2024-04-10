@@ -1,14 +1,15 @@
 import jwt from 'jsonwebtoken';
 import AuthorizationError from '../exceptions/AuthorizationError.js';
 
-export const hasAnyRole = (roles) => (req, res, next) => {
+export const isAdmin = (req, res, next) => {
   let token = req.headers.authorization;
-  if (!token) throw new Error("Invalid Token");
+  if (!token) return next(new AuthorizationError("Missing Authorization Token"));
   try {
     token = token.replace("Bearer ", "");
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     const user = decode;
-    if (roles.includes(user.role)) {
+    console.log("user linea 11 auth.mdw", user);
+    if (user.isAdmin) {
       next();
     } else {
       throw new AuthorizationError("Forbidden");

@@ -1,4 +1,3 @@
-import { response } from 'express';
 import { userService } from '../services/user.services.js';
 
 const getAll = (req, res, next) => {
@@ -23,7 +22,7 @@ const getById = (req, res, next) => {
 };
 
 const deleteUser = (req, res, next) => {
-  userService.deleteUser(req.params._id)
+  userService.deleteUser(req.params.id)
     .then(() => {
       res.status(200).json({ success: true, message: "User deleted successfully" })
     })
@@ -33,7 +32,7 @@ const deleteUser = (req, res, next) => {
 };
 
 const updateUser = (req, res, next) => {
-  userService.updateUser(req.params._id, req.body)
+  userService.updateUser(req.params.id, req.body)
     .then((response) => {
       res.status(200).json({ success: true, message: "User updated successfully", user: response })
     })

@@ -1,11 +1,12 @@
-import User from '../db/models/user.model.js';
 import bcryptjs from 'bcryptjs';
-import customError from '../middlewares/customError.middleware.js';
 import jwt from 'jsonwebtoken';
+
+import User from '../db/models/user.model.js';
+import customError from '../middlewares/customError.middleware.js';
 
 const generateToken = async (user) => {
   return jwt.sign(
-    { id: user._id, email: user.email },
+    { id: user._id, email: user.email, isAdmin: user.isAdmin },
     process.env.JWT_SECRET,
     { expiresIn: "24h" }
   )
@@ -15,8 +16,10 @@ const signin = async (email, password) => {
   try {
     const validUser = await User.findOne({ email });
     if (!validUser) {
-      console.log("el usuario NO es valido");
       throw customError(404, 'User not found');
+    }
+    if (!validUser.isActive) {
+      throw customError(403, 'User account is not active');
     }
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) {
@@ -36,12 +39,20 @@ const signup = async (user) => {
 
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
-      throw new Error('El nombre de usuario ya está en uso');
+      if (existingUsername.isActive) {
+        throw new Error(`The username ${username} is already in use`);
+      } else {
+        throw new Error(`The username ${username} is already in use but the account is inactive`);
+      }
     }
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      throw new Error('El correo electrónico ya está en uso');
+      if (existingEmail.isActive) {
+        throw new Error(`The email address ${email} is already in use`);
+      } else {
+        throw new Error(`The email address ${email} is already in use but the account is inactive`);
+      }
     }
 
     const hashedPassword = bcryptjs.hashSync(password, 10);

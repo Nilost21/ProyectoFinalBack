@@ -36,12 +36,12 @@ const createAdminUser = async (req, res, next) => {
         password: process.env.ADMIN_PASSWORD,
       }
       const createdAdmin = await authService.createAdminUser(adminData);
-      console.log("Usuario ADMIN creado con éxito.", createdAdmin)
+      console.log("ADMIN user created successfully.", createdAdmin)
     } else {
-      console.log("Ya existe un usuario ADMIN:", existingAdmin);
+      console.log("An ADMIN user already exists:", existingAdmin);
     }
   } catch (error) {
-    console.error("Error al crear usuario ADMIN:", error);
+    console.error("Error creating ADMIN user:", error);
   }
 };
 
