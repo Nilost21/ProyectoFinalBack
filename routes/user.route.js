@@ -6,6 +6,7 @@ const router = Router();
 
 router.get('', hasAnyRole(["ADMIN"]), getAll);
 router.get('/:id', hasAnyRole(["ADMIN"]), getById);
+router.get('/profile/:id', isAccountOwner, getById);
 router.put('/:id', isAccountOwner, updateUser);
 router.delete('/:id', isAccountOwner, deleteUser);
 

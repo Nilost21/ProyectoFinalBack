@@ -19,25 +19,4 @@ const seed = async () => {
   }
 };
 
-const asignRoles = async () => {
-  try {
-    const users = await User.find();
-    const userRole = await Role.findOne({ _id: 2 });
-
-    const usersWithoutRole = users.filter(user => !user.role)
-    if (usersWithoutRole.length > 0) {
-      await Promise.all(usersWithoutRole.map(async user => {
-        user.role = userRole;
-        await user.save();
-      }))
-      console.log('Roles asignados correctamente a los usuarios sin rol.');
-    } else {
-      console.log('Todos los usuarios tienen un rol asignado.');
-    }
-  } catch (error) {
-    console.error('Error al asignar roles a los usuarios:', error);
-  }
-};
-
-
 export default seed;

@@ -1,58 +1,35 @@
-import User from '../db/models/user.model.js';
+import { userRepository } from '../repositories/user.repository.js';
 
 const getAll = async () => {
-  try {
-    const res = await User
-      .find({
-        isActive: true
-      }, '-password')
-      .populate('role');
-    return res;
-  } catch (error) {
-    throw error;
-  }
+  const response = await userRepository.getAll();
+  return response;
 };
 
 const getById = async (id) => {
-  try {
-    const res = await User
-      .findOne({
-        _id: id,
-        isActive: true
-      }, '-password')
-      .populate('role');
-    return res;
-  } catch (error) {
-    throw error
-  }
+  const user = await userRepository.getById(id);
+  if (!user) throw new Error(`User doesn't exist with id ${id}`);
+  return user;
 };
 
-const getUserByRoleId = async (roleId) => {
-  try {
-    const res = await User.find({
-      role: roleId
-    });
-    return res;
-  } catch (error) {
-    throw error
-  }
-};
+const getAdminUser = async () => {
+  const adminUser = await userRepository.getAdminUser();
+  return adminUser;
+}
 
 const deleteUser = async (id) => {
   try {
-    await User.findByIdAndUpdate(id, { isActive: false });
+    await userRepository.deleteUser(id);
   } catch (error) {
+    console.error(`Failed to delete user with id ${id}:`, error.message);
     throw error;
   }
 };
 
 const updateUser = async (id, userData) => {
   try {
-    await User.findByIdAndUpdate({
-      _id: id,
-      isActive: true
-    }, userData);
+    await userRepository.updateUser(id, userData);
   } catch (error) {
+    console.error(`Failed to update user with id ${id}:`, error.message);
     throw error;
   }
 };
@@ -60,7 +37,7 @@ const updateUser = async (id, userData) => {
 export const userService = {
   getAll,
   getById,
-  getUserByRoleId,
+  getAdminUser,
   deleteUser,
   updateUser,
 };

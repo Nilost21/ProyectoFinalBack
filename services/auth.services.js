@@ -1,5 +1,4 @@
 import User from '../db/models/user.model.js';
-import Role from '../db/models/role.model.js';
 import bcryptjs from 'bcryptjs';
 import customError from '../middlewares/customError.middleware.js';
 import jwt from 'jsonwebtoken';
@@ -34,9 +33,19 @@ const signin = async (email, password) => {
 const signup = async (user) => {
   try {
     const { username, email, password } = user;
+
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      throw new Error('El nombre de usuario ya está en uso');
+    }
+
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      throw new Error('El correo electrónico ya está en uso');
+    }
+
     const hashedPassword = bcryptjs.hashSync(password, 10);
-    const userRole = await Role.findOne({ name: "USER" });
-    const newUser = new User({ username, email, password: hashedPassword, role: userRole._id });
+    const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
     return newUser;
   } catch (error) {
@@ -46,9 +55,9 @@ const signup = async (user) => {
 
 const createAdminUser = async (user) => {
   try {
-    const { username, email, password, role } = user;
+    const { username, email, password } = user;
     const hashedPassword = bcryptjs.hashSync(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword, role });
+    const newUser = new User({ username, email, password: hashedPassword, isAdmin: true });
     await newUser.save();
     return newUser;
   } catch (error) {
