@@ -1,66 +1,44 @@
-import User from '../db/models/user.model.js';
+import { userRepository } from '../repositories/user.repository.js';
+import customError from '../middlewares/customError.middleware.js';
 
 const getAll = async () => {
-  try {
-    const res = await User
-      .find({
-        isActive: true
-      }, '-password')
-      .populate('role');
-    return res;
-  } catch (error) {
-    throw error;
-  }
+  const response = await userRepository.getAll();
+  return response;
 };
 
 const getById = async (id) => {
-  try {
-    const res = await User
-      .findOne({
-        _id: id,
-        isActive: true
-      }, '-password')
-      .populate('role');
-    return res;
-  } catch (error) {
-    throw error
+  const user = await userRepository.getById(id);
+  if (!user) {
+    throw customError(404, `User doesn't exist with id ${id}`);
   }
+  return user;
 };
 
-const getUserByRoleId = async (roleId) => {
-  try {
-    const res = await User.find({
-      role: roleId
-    });
-    return res;
-  } catch (error) {
-    throw error
-  }
+const getAdminUser = async () => {
+  const adminUser = await userRepository.getAdminUser();
+  return adminUser;
 };
 
 const deleteUser = async (id) => {
   try {
-    await User.findByIdAndUpdate(id, { isActive: false });
+    await userRepository.deleteUser(id);
   } catch (error) {
+    console.error(`Failed to delete user with id ${id}:`, error.message);
     throw error;
   }
 };
 
 const updateUser = async (id, userData) => {
-  try {
-    await User.findByIdAndUpdate({
-      _id: id,
-      isActive: true
-    }, userData);
-  } catch (error) {
-    throw error;
+  if ('isAdmin' in userData) {
+    throw customError(400, "You are not allowed to update the isAdmin attribute.");
   }
+  await userRepository.updateUser(id, userData);
 };
 
 export const userService = {
   getAll,
   getById,
-  getUserByRoleId,
+  getAdminUser,
   deleteUser,
   updateUser,
 };

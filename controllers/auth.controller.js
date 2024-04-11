@@ -1,13 +1,12 @@
 import { authService } from '../services/auth.services.js';
 import { userService } from '../services/user.services.js';
-import { roleService } from '../services/role.services.js';
 
 const signin = (req, res, next) => {
   const { email, password } = req.body;
   authService.signin(email, password)
     .then(({ user, token }) => {
       res.cookie('access_token', token, { httpOnly: true })
-      res.status(200).json({ success: true, user })
+      res.status(200).json({ success: true, user, token })
     })
     .catch((err) => {
       console.log(err);
@@ -28,26 +27,21 @@ const signup = (req, res, next) => {
 
 const createAdminUser = async (req, res, next) => {
   try {
-    // Verifica si ya existe un usuario con rol ADMIN
-    const adminRole = await roleService.getByName("ADMIN");
-    if (!adminRole) return console.log("No se encontró el rol ADMIN.");
+    const existingAdmin = await userService.getAdminUser();
 
-    // Chequeo si existe algun usuario con rol ADMIN
-    const existingAdmin = await userService.getUserByRoleId(adminRole._id);
-    if (existingAdmin.length > 0) return console.log("Ya existe un usuario ADMIN:", existingAdmin);
-
-    // Si no hay usuario con rol ADMIN, crea uno
-    const adminData = {
-      username: "admin",
-      email: "admin@elitebody.com",
-      password: "adminPassword",
-      role: adminId
-    };
-
-    const createdAdmin = await authService.createAdminUser(adminData);
-    res.status(201).json({ message: "Usuario ADMIN creado con éxito.", user: createdAdmin });
+    if (!existingAdmin) {
+      const adminData = {
+        username: process.env.ADMIN_USERNAME,
+        email: process.env.ADMIN_EMAIL,
+        password: process.env.ADMIN_PASSWORD,
+      }
+      const createdAdmin = await authService.createAdminUser(adminData);
+      console.log("ADMIN user created successfully.", createdAdmin)
+    } else {
+      console.log("An ADMIN user already exists:", existingAdmin);
+    }
   } catch (error) {
-    console.error("Error al crear usuario ADMIN:", error);
+    console.error("Error creating ADMIN user:", error);
   }
 };
 
