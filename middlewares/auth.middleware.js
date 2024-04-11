@@ -8,7 +8,6 @@ export const isAdmin = (req, res, next) => {
     token = token.replace("Bearer ", "");
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     const user = decode;
-    console.log("user linea 11 auth.mdw", user);
     if (user.isAdmin) {
       next();
     } else {
