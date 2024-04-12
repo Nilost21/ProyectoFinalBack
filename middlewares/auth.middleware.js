@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import AuthorizationError from '../exceptions/AuthorizationError.js';
 
-export const isAdmin = (req, res, next) => {
+export const AdminPermission = (req, res, next) => {
   let token = req.headers.authorization;
+
   if (!token) return next(new AuthorizationError("Missing Authorization Token"));
   try {
     token = token.replace("Bearer ", "");
