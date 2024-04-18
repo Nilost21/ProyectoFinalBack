@@ -7,8 +7,8 @@ const router = Router();
 router.get('', AdminPermission, getAll);
 router.get('/:id', AdminPermission, getById);
 router.delete('/:id', AdminPermission, deleteUser);
+router.put('/:id', AdminPermission, updateUser);
 
-router.put('/:id', isAccountOwner, updateUser);
 router.get('/profile/:id', isAccountOwner, getById);
 router.delete('/profile/:id', isAccountOwner, deleteUser);
 

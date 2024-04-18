@@ -40,18 +40,18 @@ const signup = async (user) => {
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
       if (existingUsername.isActive) {
-        throw new Error(`The username ${username} is already in use`);
+        throw customError(400, `The username ${username} is already in use`);
       } else {
-        throw new Error(`The username ${username} is already in use but the account is inactive`);
+        throw customError(400, `The username ${username} is already in use but the account is inactive`);
       }
     }
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
       if (existingEmail.isActive) {
-        throw new Error(`The email address ${email} is already in use`);
+        throw customError(400, `The email address ${email} is already in use`);
       } else {
-        throw new Error(`The email address ${email} is already in use but the account is inactive`);
+        throw customError(400, `The email address ${email} is already in use but the account is inactive`);
       }
     }
 

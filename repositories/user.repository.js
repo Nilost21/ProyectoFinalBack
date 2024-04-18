@@ -89,29 +89,31 @@ const updateUser = async (id, userData) => {
       throw new Error(`User with ID ${id} not found`)
     }
 
-    if ('username' in userData) {
-      if (user.username === userData.username) {
-        throw customError(400, "The new username is the same as the current username. No changes were made.");
-      }
+    let updatedUserData = { ...userData };
+
+    if ('username' in userData && userData.username !== user.username) {
       const usernameInUsage = await getByUsername(userData.username);
       if (usernameInUsage) {
         throw customError(400, "Username already in usage");
+      } else {
+        // Si el email no está siendo modificado, asignar el email actual del usuario
+        updatedUserData.email = user.email;
       }
     }
 
-    if ('email' in userData) {
-      if (user.email === userData.email) {
-        throw customError(400, "The new email is the same as the current email. No changes were made.");
-      }
+    if ('email' in userData && userData.email !== user.email) {
       const emailInUsage = await getByEmail(userData.email);
       if (emailInUsage) {
-        throw customError(400, "Email already in usage");
+        throw new Error("Email already in use");
       }
+    } else {
+      // Si el email no está siendo modificado, asignar el email actual del usuario
+      updatedUserData.email = user.email;
     }
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      { $set: userData },
+      { $set: updatedUserData },
       // Para devolver el documento actualizado y ejecutar las validaciones de mongoose:
       { new: true, runValidators: true }
     );
