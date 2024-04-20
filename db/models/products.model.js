@@ -15,7 +15,6 @@ const productSchema = new Schema(
     price: {
       type: Number,
       required: true,
-      unique: true,
     },
     description: {
       type: String,
@@ -23,7 +22,11 @@ const productSchema = new Schema(
     },
     image: {
       type: String,
-      ref: 'Role',
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   { timestamps: true }
