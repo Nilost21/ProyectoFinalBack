@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getAll, getById, deleteUser, updateUser } from '../controllers/user.controller.js';
-import { AdminPermission, isAccountOwner } from '../middlewares/index.js'
+import { AdminPermission, isAccountOwner } from '../middlewares/index.js';
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-import { classServices } from './class.services.js';
+import { classServices } from '../services/class.services.js';
 
 const getAllClasses = async (req, res) => {
   try {
@@ -36,4 +36,9 @@ const deleteClass = async (req, res) => {
   }
 };
 
-export { getAllClasses, createClass, updateClass, deleteClass };
+export {
+  getAllClasses,
+  createClass,
+  updateClass,
+  deleteClass
+};
