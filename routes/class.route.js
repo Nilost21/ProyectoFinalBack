@@ -1,5 +1,6 @@
-import { Router } from "express";
-import { getAllClasses, createClass, updateClass, deleteClass } from '../services/class.services.js'
+import { Router } from 'express';
+import { getAllClasses, createClass, updateClass, deleteClass } from '../controllers/class.controller.js';
+import { AdminPermission } from '../middlewares/index.js';
 
 const router = Router();
 

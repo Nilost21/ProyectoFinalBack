@@ -1,4 +1,4 @@
-import { classRepository } from './class.repository.js';
+import { classRepository } from '../repositories/class.repository.js';
 
 const getAllClasses = async () => {
   try {
@@ -32,4 +32,9 @@ const deleteClass = async (id) => {
   }
 };
 
-export const classServices = { getAllClasses, createClass, updateClass, deleteClass };
+export const classServices = {
+  getAllClasses,
+  createClass,
+  updateClass,
+  deleteClass
+};

@@ -19,12 +19,8 @@ const classSchema = new Schema(
       type: String,
       required: true,
     },
-    date: {
-      type: Date, 
-      required: true,
-    },
-    hour: {
-      type: Date, 
+    dateAndTime: {
+      type: Date,
       required: true,
     },
     isActive: {
