@@ -7,10 +7,17 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       auto: true,
     },
-    username: {
+    name: {
       type: String,
       required: true,
-      unique: true
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    phonenumber: {
+      type: String,
+      required: true,
     },
     email: {
       type: String,

@@ -31,7 +31,9 @@ const createAdminUser = async (req, res, next) => {
 
     if (!existingAdmin) {
       const adminData = {
-        username: process.env.ADMIN_USERNAME,
+        name: process.env.ADMIN_USERNAME,
+        lastname: process.env.ADMIN_LASTNAME,
+        phonenumber: process.env.ADMIN_PHONENUMBER,
         email: process.env.ADMIN_EMAIL,
         password: process.env.ADMIN_PASSWORD,
       }

@@ -41,19 +41,6 @@ const getByEmail = async (email) => {
   }
 };
 
-const getByUsername = async (username) => {
-  try {
-    const res = await User
-      .findOne({
-        username: username,
-        isActive: true
-      });
-    return res;
-  } catch (error) {
-    throw error;
-  }
-};
-
 const getAdminUser = async () => {
   try {
     const res = await User
@@ -91,16 +78,6 @@ const updateUser = async (id, userData) => {
 
     let updatedUserData = { ...userData };
 
-    if ('username' in userData && userData.username !== user.username) {
-      const usernameInUsage = await getByUsername(userData.username);
-      if (usernameInUsage) {
-        throw customError(400, "Username already in usage");
-      } else {
-        // Si el email no está siendo modificado, asignar el email actual del usuario
-        updatedUserData.email = user.email;
-      }
-    }
-
     if ('email' in userData && userData.email !== user.email) {
       const emailInUsage = await getByEmail(userData.email);
       if (emailInUsage) {
@@ -127,7 +104,6 @@ export const userRepository = {
   getAll,
   getById,
   getByEmail,
-  getByUsername,
   getAdminUser,
   deleteUser,
   updateUser,
