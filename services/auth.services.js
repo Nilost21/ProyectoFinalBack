@@ -35,16 +35,7 @@ const signin = async (email, password) => {
 
 const signup = async (user) => {
   try {
-    const { username, email, password } = user;
-
-    const existingUsername = await User.findOne({ username });
-    if (existingUsername) {
-      if (existingUsername.isActive) {
-        throw customError(400, `The username ${username} is already in use`);
-      } else {
-        throw customError(400, `The username ${username} is already in use but the account is inactive`);
-      }
-    }
+    const { name, lastname, phonenumber, email, password } = user;
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
@@ -56,7 +47,7 @@ const signup = async (user) => {
     }
 
     const hashedPassword = bcryptjs.hashSync(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword });
+    const newUser = new User({ name, lastname, phonenumber, email, password: hashedPassword });
     await newUser.save();
     return newUser;
   } catch (error) {
@@ -66,9 +57,9 @@ const signup = async (user) => {
 
 const createAdminUser = async (user) => {
   try {
-    const { username, email, password } = user;
+    const { name, lastname, phonenumber, email, password } = user;
     const hashedPassword = bcryptjs.hashSync(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword, isAdmin: true });
+    const newUser = new User({ name, lastname, phonenumber, email, password: hashedPassword, isAdmin: true });
     await newUser.save();
     return newUser;
   } catch (error) {
