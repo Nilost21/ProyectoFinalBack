@@ -9,6 +9,16 @@ const getAllClasses = async (req, res) => {
   }
 };
 
+const getById = async (req, res) => {
+  classServices.getById(req.params.id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      next(err);
+    })
+};
+
 const createClass = async (req, res) => {
   try {
     const newClass = await classServices.createClass(req.body);
@@ -38,6 +48,7 @@ const deleteClass = async (req, res) => {
 
 export {
   getAllClasses,
+  getById,
   createClass,
   updateClass,
   deleteClass

@@ -8,6 +8,14 @@ const getAllClasses = async () => {
   }
 };
 
+const getById = async (id) => {
+  const res = await classRepository.getById(id);
+  if (!res) {
+    throw customError(404, `Class doesn't exist with id ${id}`);
+  }
+  return res;
+};
+
 const createClass = async (classData) => {
   try {
     return await classRepository.createClass(classData);
@@ -34,6 +42,7 @@ const deleteClass = async (id) => {
 
 export const classServices = {
   getAllClasses,
+  getById,
   createClass,
   updateClass,
   deleteClass

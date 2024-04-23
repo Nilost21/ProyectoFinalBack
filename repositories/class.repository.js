@@ -1,4 +1,4 @@
-import Class from "../db/models/class.model.js";
+import Class from '../db/models/class.model.js';
 
 const getAllClasses = async () => {
   try {
@@ -6,6 +6,16 @@ const getAllClasses = async () => {
     return classes;
   } catch (error) {
     throw new Error(`Error getting all classes: ${error.message}`);
+  }
+};
+
+const getById = async (id) => {
+  try {
+    const res = await Class
+      .findOne({ _id: id, })
+    return res;
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -39,4 +49,10 @@ const deleteClass = async (id) => {
   }
 };
 
-export const classRepository = { getAllClasses, createClass, updateClass, deleteClass };
+export const classRepository = {
+  getAllClasses,
+  getById,
+  createClass,
+  updateClass,
+  deleteClass
+};
