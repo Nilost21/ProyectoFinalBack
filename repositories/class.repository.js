@@ -1,8 +1,8 @@
-import Class from '../db/models/class.model.js';
+import GymClass from '../db/models/class.model.js';
 
 const getAllClasses = async () => {
   try {
-    const classes = await Class.find();
+    const classes = await GymClass.find();
     return classes;
   } catch (error) {
     throw new Error(`Error getting all classes: ${error.message}`);
@@ -11,7 +11,7 @@ const getAllClasses = async () => {
 
 const getById = async (id) => {
   try {
-    const res = await Class
+    const res = await GymClass
       .findOne({ _id: id, })
     return res;
   } catch (error) {
@@ -21,7 +21,7 @@ const getById = async (id) => {
 
 const createClass = async (classData) => {
   try {
-    const newClass = new Class(classData);
+    const newClass = new GymClass(classData);
     const savedClass = await newClass.save();
     return savedClass;
   } catch (error) {
@@ -31,7 +31,7 @@ const createClass = async (classData) => {
 
 const updateClass = async (id, updatedClassData) => {
   try {
-    const updatedClass = await Class.findByIdAndUpdate(id, updatedClassData, {
+    const updatedClass = await GymClass.findByIdAndUpdate(id, updatedClassData, {
       new: true,
     });
     return updatedClass;
@@ -42,7 +42,7 @@ const updateClass = async (id, updatedClassData) => {
 
 const deleteClass = async (id) => {
   try {
-    const deletedClass = await Class.findByIdAndDelete(id);
+    const deletedClass = await GymClass.findByIdAndDelete(id);
     return deletedClass;
   } catch (error) {
     throw new Error(`Error deleting class: ${error.message}`);

@@ -5,7 +5,7 @@ const getAll = async () => {
 };
 
 const newEnrollment = async (userId, classId) => {
-  const enrollmentData = { user: userId, class: classId };
+  const enrollmentData = { user: userId, gymClass: classId };
   return await enrollmentRepository.newEnrollment(enrollmentData);
 };
 

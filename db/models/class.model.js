@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const classSchema = new Schema(
+const gymClassSchema = new Schema(
   {
     _id: {
       type: Schema.Types.ObjectId,
@@ -31,6 +31,6 @@ const classSchema = new Schema(
   { timestamps: true }
 );
 
-const Class = mongoose.model('Class', classSchema);
+const GymClass = mongoose.model('GymClass', gymClassSchema);
 
-export default Class;
+export default GymClass;

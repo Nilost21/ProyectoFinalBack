@@ -11,9 +11,11 @@ const getAll = async (req, res, next) => {
 };
 
 const newEnrollment = async (req, res, next) => {
-  const { userId, classId } = req.body;
+  const { user, gymClass } = req.body;
   try {
-    const enrollment = await enrollmentService.newEnrollment(userId, classId);
+    console.log("Controlador user", user);
+    console.log("Controlador gymclass", gymClass);
+    const enrollment = await enrollmentService.newEnrollment(user, gymClass);
     res.status(201).json(enrollment);
   } catch (error) {
     console.log("Error en el controlador")
