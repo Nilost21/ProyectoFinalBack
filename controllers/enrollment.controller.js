@@ -30,6 +30,16 @@ const getEnrollmentsForToday = async (req, res) => {
   }
 };
 
+const getUserEnrollments = async (req, res, next) => {
+  enrollmentService.getUserEnrollments(req.params.id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      next(err);
+    })
+};
+
 const deleteEnrollment = async (req, res, next) => {
   const enrollmentId = req.params.id;
   try {
@@ -45,5 +55,6 @@ export {
   newEnrollment,
   getAll,
   getEnrollmentsForToday,
+  getUserEnrollments,
   deleteEnrollment
 };

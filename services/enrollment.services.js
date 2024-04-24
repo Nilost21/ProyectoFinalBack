@@ -13,6 +13,10 @@ const getEnrollmentsForToday = async () => {
   return await enrollmentRepository.getEnrollmentsForToday();
 };
 
+const getUserEnrollments = async () => {
+  return await enrollmentRepository.getUserEnrollments();
+};
+
 const deleteEnrollment = async (enrollmentId) => {
   return await enrollmentRepository.deleteEnrollment(enrollmentId);
 };
@@ -21,5 +25,6 @@ export const enrollmentService = {
   getAll,
   newEnrollment,
   getEnrollmentsForToday,
+  getUserEnrollments,
   deleteEnrollment
 };

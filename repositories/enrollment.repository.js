@@ -13,7 +13,6 @@ const getAll = async () => {
 
 const newEnrollment = async (enrollmentData) => {
   try {
-    // Verificar si el usuario ya está inscrito en la clase
     const existingEnrollment = await Enrollment.findOne({
       user: enrollmentData.user,
       gymClass: enrollmentData.gymClass,
@@ -33,6 +32,24 @@ const newEnrollment = async (enrollmentData) => {
     return res;
   } catch (error) {
     throw error;
+  }
+};
+
+const getUserEnrollments = async (userId) => {
+  try {
+    let userEnrollments = await Enrollment.find({ userId });
+    const className = await getClassNameForEnrollments(userEnrollments);
+    const teacher = await getClassTeacherForEnrollments(userEnrollments);
+
+    userEnrollments = userEnrollments.map((enrollment, index) => ({
+      ...enrollment.toObject(),
+      className: className[index],
+      teacher: teacher[index],
+    }));
+    console.log("userEnrollments", userEnrollments);
+    return userEnrollments;
+  } catch (error) {
+    throw new Error('Error fetching user enrollments: ' + error.message);
   }
 };
 
@@ -120,6 +137,7 @@ const deleteEnrollment = async (id) => {
 export const enrollmentRepository = {
   getAll,
   newEnrollment,
+  getUserEnrollments,
   getEnrollmentsForToday,
   deleteEnrollment
 };
