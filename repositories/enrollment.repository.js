@@ -38,11 +38,14 @@ const newEnrollment = async (enrollmentData) => {
 
 const getEnrollmentsForToday = async () => {
   try {
-    const currentDate = new Date().toISOString().split('T')[0];
+    const currentDate = new Date();
+    const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
+    const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
+
     let enrollmentsForToday = await Enrollment.find({
       dateAndTime: {
-        $gte: new Date(`${currentDate}T00:00:00.000Z`),
-        $lt: new Date(`${currentDate}T23:59:59.999Z`)
+        $gte: startOfDay,
+        $lte: endOfDay
       }
     });
 
@@ -57,7 +60,6 @@ const getEnrollmentsForToday = async () => {
       teacher: teacher[index],
       userName: userNames[index]
     }));
-    //console.log("👗 EnrollmentsForToday", enrollmentsForToday);
     return enrollmentsForToday;
   } catch (error) {
     throw new Error('Error fetching enrollments for the current day: ' + error.message);
