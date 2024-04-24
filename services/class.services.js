@@ -8,6 +8,31 @@ const getAllClasses = async () => {
   }
 };
 
+const getById = async (id) => {
+  const res = await classRepository.getById(id);
+  if (!res) {
+    throw customError(404, `Class doesn't exist with id ${id}`);
+  }
+  return res;
+};
+
+const getClassNameById = async (id) => {
+  return await classRepository.getClassNameById(id);
+};
+
+const getClassTeacherById = async (id) => {
+  return await classRepository.getClassTeacherById(id);
+};
+
+async function getClassesForToday() {
+  try {
+    const classesForToday = await classRepository.getClassesForToday();
+    return classesForToday;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 const createClass = async (classData) => {
   try {
     return await classRepository.createClass(classData);
@@ -34,6 +59,10 @@ const deleteClass = async (id) => {
 
 export const classServices = {
   getAllClasses,
+  getById,
+  getClassNameById,
+  getClassTeacherById,
+  getClassesForToday,
   createClass,
   updateClass,
   deleteClass

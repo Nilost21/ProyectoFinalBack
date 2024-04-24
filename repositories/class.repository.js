@@ -1,17 +1,68 @@
-import Class from "../db/models/class.model.js";
+import GymClass from '../db/models/class.model.js';
 
 const getAllClasses = async () => {
   try {
-    const classes = await Class.find();
+    const classes = await GymClass.find();
     return classes;
   } catch (error) {
     throw new Error(`Error getting all classes: ${error.message}`);
   }
 };
 
+const getById = async (id) => {
+  try {
+    const res = await GymClass
+      .findOne({ _id: id, })
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getClassNameById = async (classId) => {
+  try {
+    const classObject = await GymClass.findById(classId);
+    if (!classObject) {
+      return 'Unknown';
+    }
+    return classObject.name;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getClassTeacherById = async (classId) => {
+  try {
+    const classObject = await GymClass.findById(classId);
+    if (!classObject) {
+      return 'Unknown';
+    }
+    return classObject.teacher;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getClassesForToday = async () => {
+  try {
+    const currentDate = new Date().toISOString().split('T')[0];
+    const classesForToday = await GymClass.find({
+      dateAndTime: {
+        $gte: new Date(`${currentDate}T00:00:00.000Z`),
+        $lt: new Date(`${currentDate}T23:59:59.999Z`)
+      }
+    });
+    console.log("ClassesForToday", classesForToday)
+    return classesForToday;
+
+  } catch (error) {
+    throw new Error('Error al obtener las clases para el día actual: ' + error.message);
+  }
+};
+
 const createClass = async (classData) => {
   try {
-    const newClass = new Class(classData);
+    const newClass = new GymClass(classData);
     const savedClass = await newClass.save();
     return savedClass;
   } catch (error) {
@@ -21,7 +72,7 @@ const createClass = async (classData) => {
 
 const updateClass = async (id, updatedClassData) => {
   try {
-    const updatedClass = await Class.findByIdAndUpdate(id, updatedClassData, {
+    const updatedClass = await GymClass.findByIdAndUpdate(id, updatedClassData, {
       new: true,
     });
     return updatedClass;
@@ -32,11 +83,20 @@ const updateClass = async (id, updatedClassData) => {
 
 const deleteClass = async (id) => {
   try {
-    const deletedClass = await Class.findByIdAndDelete(id);
+    const deletedClass = await GymClass.findByIdAndDelete(id);
     return deletedClass;
   } catch (error) {
     throw new Error(`Error deleting class: ${error.message}`);
   }
 };
 
-export const classRepository = { getAllClasses, createClass, updateClass, deleteClass };
+export const classRepository = {
+  getAllClasses,
+  getById,
+  getClassNameById,
+  getClassTeacherById,
+  getClassesForToday,
+  createClass,
+  updateClass,
+  deleteClass
+};
