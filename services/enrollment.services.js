@@ -13,8 +13,8 @@ const getEnrollmentsForToday = async () => {
   return await enrollmentRepository.getEnrollmentsForToday();
 };
 
-const getUserEnrollments = async () => {
-  return await enrollmentRepository.getUserEnrollments();
+const getUserEnrollments = async (userId) => {
+  return await enrollmentRepository.getUserEnrollments(userId);
 };
 
 const deleteEnrollment = async (enrollmentId) => {

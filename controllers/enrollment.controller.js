@@ -31,6 +31,7 @@ const getEnrollmentsForToday = async (req, res) => {
 };
 
 const getUserEnrollments = async (req, res, next) => {
+  console.log("id user", req.params.id)
   enrollmentService.getUserEnrollments(req.params.id)
     .then((response) => {
       res.status(200).json(response);

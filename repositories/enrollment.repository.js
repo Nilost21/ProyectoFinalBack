@@ -37,7 +37,8 @@ const newEnrollment = async (enrollmentData) => {
 
 const getUserEnrollments = async (userId) => {
   try {
-    let userEnrollments = await Enrollment.find({ userId });
+    console.log(userId);
+    let userEnrollments = await Enrollment.find({ user: userId });
     const className = await getClassNameForEnrollments(userEnrollments);
     const teacher = await getClassTeacherForEnrollments(userEnrollments);
 
