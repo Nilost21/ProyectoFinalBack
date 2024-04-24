@@ -28,6 +28,18 @@ const getById = async (id) => {
   }
 };
 
+const getNameById = async (id) => {
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return 'Unknown';
+    }
+    return `${user.name} ${user.lastname}`;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getByEmail = async (email) => {
   try {
     const res = await User
@@ -103,6 +115,7 @@ const updateUser = async (id, userData) => {
 export const userRepository = {
   getAll,
   getById,
+  getNameById,
   getByEmail,
   getAdminUser,
   deleteUser,

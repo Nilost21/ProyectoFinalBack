@@ -1,12 +1,16 @@
 import { enrollmentRepository } from '../repositories/enrollment.repository.js';
 
 const getAll = async () => {
-  return await enrollmentRepository.getAllEnrollments();
+  return await enrollmentRepository.getAll();
 };
 
 const newEnrollment = async (userId, classId) => {
   const enrollmentData = { user: userId, gymClass: classId };
   return await enrollmentRepository.newEnrollment(enrollmentData);
+};
+
+const getEnrollmentsForToday = async () => {
+  return await enrollmentRepository.getEnrollmentsForToday();
 };
 
 const deleteEnrollment = async (enrollmentId) => {
@@ -16,5 +20,6 @@ const deleteEnrollment = async (enrollmentId) => {
 export const enrollmentService = {
   getAll,
   newEnrollment,
+  getEnrollmentsForToday,
   deleteEnrollment
 };

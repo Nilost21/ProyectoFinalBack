@@ -14,6 +14,14 @@ const getById = async (id) => {
   return user;
 };
 
+const getNameById = async (id) => {
+  const user = await userRepository.getNameById(id);
+  if (!user) {
+    throw customError(404, `User doesn't exist with id ${id}`);
+  }
+  return user;
+};
+
 const getAdminUser = async () => {
   const adminUser = await userRepository.getAdminUser();
   return adminUser;
@@ -38,6 +46,7 @@ const updateUser = async (id, userData) => {
 export const userService = {
   getAll,
   getById,
+  getNameById,
   getAdminUser,
   deleteUser,
   updateUser,

@@ -10,7 +10,11 @@ const enrollmentSchema = new Schema(
     gymClass: {
       type: Schema.Types.ObjectId,
       ref: 'GymClass'
-    }
+    },
+    dateAndTime: {
+      type: Date,
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -21,6 +21,16 @@ const getById = (req, res, next) => {
     })
 };
 
+const getNameById = (req, res, next) => {
+  userService.getNameById(req.params.id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      next(err);
+    })
+};
+
 const deleteUser = (req, res, next) => {
   userService.deleteUser(req.params.id)
     .then(() => {
@@ -44,6 +54,7 @@ const updateUser = (req, res, next) => {
 export {
   getAll,
   getById,
+  getNameById,
   deleteUser,
   updateUser
 };

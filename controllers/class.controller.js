@@ -9,7 +9,7 @@ const getAllClasses = async (req, res) => {
   }
 };
 
-const getById = async (req, res) => {
+const getById = async (req, res, next) => {
   classServices.getById(req.params.id)
     .then((response) => {
       res.status(200).json(response);
@@ -17,6 +17,35 @@ const getById = async (req, res) => {
     .catch((err) => {
       next(err);
     })
+};
+
+const getClassNameById = async (req, res, next) => {
+  classServices.getClassNameById(req.params.id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      next(err);
+    })
+};
+
+const getClassTeacherById = async (req, res, next) => {
+  classServices.getClassTeacherById(req.params.id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      next(err);
+    })
+};
+
+async function getClassesForToday(req, res) {
+  try {
+    const classesForToday = await classServices.getClassesForToday();
+    res.status(200).json(classesForToday);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 const createClass = async (req, res) => {
@@ -49,6 +78,9 @@ const deleteClass = async (req, res) => {
 export {
   getAllClasses,
   getById,
+  getClassNameById,
+  getClassTeacherById,
+  getClassesForToday,
   createClass,
   updateClass,
   deleteClass

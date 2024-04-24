@@ -13,13 +13,20 @@ const getAll = async (req, res, next) => {
 const newEnrollment = async (req, res, next) => {
   const { user, gymClass } = req.body;
   try {
-    console.log("Controlador user", user);
-    console.log("Controlador gymclass", gymClass);
     const enrollment = await enrollmentService.newEnrollment(user, gymClass);
     res.status(201).json(enrollment);
   } catch (error) {
     console.log("Error en el controlador")
     next(error);
+  }
+};
+
+const getEnrollmentsForToday = async (req, res) => {
+  try {
+    const enrollmentsForToday = await enrollmentService.getEnrollmentsForToday();
+    res.status(200).json(enrollmentsForToday);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -37,5 +44,6 @@ const deleteEnrollment = async (req, res, next) => {
 export {
   newEnrollment,
   getAll,
+  getEnrollmentsForToday,
   deleteEnrollment
 };
