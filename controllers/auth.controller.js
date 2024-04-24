@@ -9,7 +9,6 @@ const signin = (req, res, next) => {
       res.status(200).json({ success: true, user, token })
     })
     .catch((err) => {
-      console.log(err);
       next(err);
     })
 };

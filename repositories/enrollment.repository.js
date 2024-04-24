@@ -13,6 +13,14 @@ const getAll = async () => {
 
 const newEnrollment = async (enrollmentData) => {
   try {
+    // Verificar si el usuario ya está inscrito en la clase
+    const existingEnrollment = await Enrollment.findOne({
+      user: enrollmentData.user,
+      gymClass: enrollmentData.gymClass,
+    });
+    if (existingEnrollment) {
+      throw new Error('El usuario ya está inscrito en esta clase.');
+    }
     const classDate = await GymClass.findById(enrollmentData.gymClass);
     const dateAndTime = classDate.dateAndTime;
     const res = new Enrollment({
@@ -69,7 +77,6 @@ const getClassNameForEnrollments = async (enrollments) => {
     throw new Error('Error fetching class info for enrollments: ' + error.message);
   }
 };
-
 
 const getClassTeacherForEnrollments = async (enrollments) => {
   try {
