@@ -5,7 +5,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node src/index.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
