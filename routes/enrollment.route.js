@@ -7,7 +7,7 @@ const router = Router();
 router.get('', getAll);
 router.post('', newEnrollment);
 router.get('/enrollments/today', getEnrollmentsForToday);
-router.get('/enrollments/:id', getUserEnrollments);
+router.get('/enrollments/:id', isAccountOwner, getUserEnrollments);
 router.delete('/:id', deleteEnrollment);
 
 export default router;
