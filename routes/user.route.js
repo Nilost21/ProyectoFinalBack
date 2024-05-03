@@ -6,11 +6,11 @@ const router = Router();
 
 router.get('', AdminPermission, getAll);
 router.get('/:id', AdminPermission, getById);
-router.get('/name/:id', getNameById);
+router.get('/name/:id', AdminPermission, getNameById);
 router.delete('/:id', AdminPermission, deleteUser);
-router.put('/:id', AdminPermission, updateUser);
 
 router.get('/profile/:id', isAccountOwner, getById);
+router.put('/profile/:id', isAccountOwner, updateUser);
 router.delete('/profile/:id', isAccountOwner, deleteUser);
 
 export default router;

@@ -71,11 +71,7 @@ const deleteUser = async (id) => {
     if (!user) {
       throw new Error(`User with ID ${id} not found`)
     }
-    await User.findByIdAndUpdate(
-      id,
-      { $set: { isActive: false } },
-      { new: true }
-    );
+    await User.findByIdAndDelete(id);
   } catch (error) {
     throw error;
   }

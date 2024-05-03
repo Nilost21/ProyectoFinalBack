@@ -1,9 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 export const isAccountOwner = (req, res, next) => {
-  // Extraer el token de autorización del encabezado
   let token = req.headers.authorization;
-
   if (!token) throw new Error("Invalid Token");
   try {
     token = token.replace("Bearer ", "")
