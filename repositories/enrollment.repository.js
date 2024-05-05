@@ -37,7 +37,7 @@ const newEnrollment = async (enrollmentData) => {
 
 const getUserEnrollments = async (userId) => {
   try {
-    console.log("hola", userId);
+    //console.log("hola", userId);
     let userEnrollments = await Enrollment.find({ user: userId });
     const className = await getClassNameForEnrollments(userEnrollments);
     const teacher = await getClassTeacherForEnrollments(userEnrollments);
@@ -47,7 +47,7 @@ const getUserEnrollments = async (userId) => {
       className: className[index],
       teacher: teacher[index],
     }));
-    console.log("userEnrollments", userEnrollments);
+    //console.log("userEnrollments", userEnrollments);
     return userEnrollments;
   } catch (error) {
     throw new Error('Error fetching user enrollments: ' + error.message);
