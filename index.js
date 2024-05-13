@@ -22,7 +22,7 @@ mongoose
   })
   .catch((err) => {
     console.log(err);
-  })
+  });
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.listen(PORT, () => {
 
 // Middleware to handle 404 errors
 app.use((req, res, next) => {
-  const err = new Error('Path not Found');
+  const err = new Error('Path not Found 1');
   err.status = 404;
   next(err);
 });
