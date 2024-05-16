@@ -4,7 +4,7 @@ import authRouter from './auth.route.js';
 import userRouter from './user.route.js';
 import productsRouter from './products.route.js';
 import classRouter from './class.route.js';
-import enrollmentRouter from './enrollment.route.js'
+import enrollmentRouter from './enrollment.route.js';
 
 const router = Router();
 
