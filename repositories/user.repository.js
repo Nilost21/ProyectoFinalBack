@@ -1,0 +1,119 @@
+import User from '../db/models/user.model.js';
+import customError from '../middlewares/customError.middleware.js';
+
+const getAll = async () => {
+  try {
+    const res = await User
+      .find({
+        isActive: true
+      }, '-password')
+      .populate('role');
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getById = async (id) => {
+  try {
+    const res = await User
+      .findOne({
+        _id: id,
+        isActive: true
+      }, '-password')
+      .populate('role');
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getNameById = async (id) => {
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return 'Unknown';
+    }
+    return `${user.name} ${user.lastname}`;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getByEmail = async (email) => {
+  try {
+    const res = await User
+      .findOne({
+        email: email,
+        isActive: true
+      });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getAdminUser = async () => {
+  try {
+    const res = await User
+      .findOne({
+        isAdmin: true
+      });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteUser = async (id) => {
+  try {
+    const user = await getById(id);
+    if (!user) {
+      throw new Error(`User with ID ${id} not found`)
+    }
+    await User.findByIdAndDelete(id);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateUser = async (id, userData) => {
+  try {
+    const user = await getById(id);
+    if (!user) {
+      throw new Error(`User with ID ${id} not found`)
+    }
+
+    let updatedUserData = { ...userData };
+
+    if ('email' in userData && userData.email !== user.email) {
+      const emailInUsage = await getByEmail(userData.email);
+      if (emailInUsage) {
+        throw new Error("Email already in use");
+      }
+    } else {
+      // Si el email no está siendo modificado, asignar el email actual del usuario
+      updatedUserData.email = user.email;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: updatedUserData },
+      // Para devolver el documento actualizado y ejecutar las validaciones de mongoose:
+      { new: true, runValidators: true }
+    );
+    return updatedUser;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const userRepository = {
+  getAll,
+  getById,
+  getNameById,
+  getByEmail,
+  getAdminUser,
+  deleteUser,
+  updateUser,
+};
