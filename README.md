@@ -4,6 +4,8 @@
 
 ELITEBODY es una aplicación web desarrollada para la gestión y promoción de un gimnasio. Esta aplicación permite a los usuarios consultar servicios, horarios, entrenadores, y realizar reservas de clases. Este proyecto fue llevado a cabo como parte de un proyecto académico en la academia Rolling Code por un grupo de programadores full stack.
 
+Link del [repositorio frontend](https://github.com/Nilost21/ProyectoFinalFront)
+
 ## Deploy
 
 [Aquí](https://elitebodycode.netlify.app/) puede ver el sitio deployado.
