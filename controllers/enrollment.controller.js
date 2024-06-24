@@ -16,7 +16,9 @@ const newEnrollment = async (req, res, next) => {
     const enrollment = await enrollmentService.newEnrollment(user, gymClass);
     res.status(201).json(enrollment);
   } catch (error) {
-    console.log("Error en el controlador")
+    if (error.message === 'The user is already enrolled in the class.') {
+      return res.status(400).json({ error: { message: error.message } });
+    }
     next(error);
   }
 };

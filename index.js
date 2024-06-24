@@ -22,11 +22,11 @@ mongoose
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -39,7 +39,7 @@ app.listen(PORT, () => {
 
 // Middleware to handle 404 errors
 app.use((req, res, next) => {
-  const err = new Error(`Path not Found: ${req.method} ${req.originalUrl}`);
+  const err = new Error('Path not Found');
   err.status = 404;
   next(err);
 });

@@ -18,7 +18,8 @@ const newEnrollment = async (enrollmentData) => {
       gymClass: enrollmentData.gymClass,
     });
     if (existingEnrollment) {
-      throw new Error('El usuario ya está inscrito en esta clase.');
+      return { message: 'You are already enrolled in the class.' };
+      //throw new Error('The user is already enrolled in the class.');
     }
     const classDate = await GymClass.findById(enrollmentData.gymClass);
     const dateAndTime = classDate.dateAndTime;
